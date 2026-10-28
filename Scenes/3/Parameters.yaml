@@ -1,0 +1,15 @@
+camera:
+  width: 1600
+  height: 1300
+  fov: 90
+
+stereo:
+  x_baseline: 0.1
+  y_baseline: 0.1
+
+scene:
+  origin: "blender"
+  obstacle_distance: 2.51
+  x_angle: 0.0
+  y_angle: 0.0
+  z_angle: 0.0

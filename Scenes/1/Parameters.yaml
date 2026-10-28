@@ -9,7 +9,7 @@ stereo:
 
 scene:
   origin: "blender"
-  obstacle_distance: 2
+  obstacle_distance: 2.51
   x_angle: 0.0
   y_angle: 0.0
   z_angle: 0.0
