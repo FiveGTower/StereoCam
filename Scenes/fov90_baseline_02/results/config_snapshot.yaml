@@ -1,0 +1,140 @@
+experiment:
+  name: fov90_baseline_02
+  output_dir: ./results
+inputs:
+  center: ./left_up.png
+  right: ./right_up.png
+  down: ./left_down.png
+scene:
+  origin: blender
+  frame: 1
+  scene_name: urban_street
+  obstacle_distance_m: null
+  x_angle_deg: null
+  y_angle_deg: null
+  z_angle_deg: null
+  render_engine: null
+rig:
+  reference_camera: L
+  horizontal_camera: R
+  vertical_camera: SL
+  layout: L_shape
+  baseline_horizontal_m: 0.2
+  baseline_vertical_m: 0.2
+  horizontal_shift_sign: -1
+  vertical_shift_sign: -1
+  images_already_rectified: true
+  pose_baseline_tolerance_m: 0.0005
+cameras:
+  L:
+    object_name: Camera_L
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 800
+    fy_px: 800
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.5
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 90
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m:
+    - 0.8
+    - -4.0
+    - 2.0
+    rotation_world_xyz_deg:
+    - 90.0
+    - 0.0
+    - 0.0
+  R:
+    object_name: Camera_R
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 800
+    fy_px: 800
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.5
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 90
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m:
+    - 1.0
+    - -4.0
+    - 2.0
+    rotation_world_xyz_deg:
+    - 90.0
+    - 0.0
+    - 0.0
+  SL:
+    object_name: Camera_SL
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 800
+    fy_px: 800
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.5
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 90
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m:
+    - 0.8
+    - -4.0
+    - 1.8
+    rotation_world_xyz_deg:
+    - 90.0
+    - 0.0
+    - 0.0
+preprocess:
+  processing_scale: 0.5
+  equalize: none
+  clahe_clip_limit: 2.0
+  clahe_tile_grid: 8
+  gaussian_blur_ksize: 0
+search:
+  min_disparity_px: 0
+  max_disparity_px: 128
+  min_valid_disparity_px: 0.5
+  max_valid_depth_m: 100.0
+trinocular:
+  census_window: 5
+  require_both_pairs: true
+  gradient_weights:
+    enabled: true
+    floor: 0.2
+    gamma: 1.0
+    epsilon: 0.001
+  hierarchy:
+    levels: 3
+    coarse_cost_weight: 0.7
+  sgm:
+    paths: 4
+    P1: 0.07
+    P2: 0.4
+  selection:
+    subpixel: true
+    uniqueness_ratio: 0.03
+  postprocess:
+    median_ksize: 0
+ground_truth:
+  reference_camera: L
+  depth_npy_path: ./groundtruth.exr
+  depth_definition: null
+output:
+  save_npy: true
+  save_exr: true
+  save_preview_png: true
+  preview_max_disparity_px: 128.0
+  preview_min_depth_m: 1.0
+  preview_max_depth_m: 20.0
+  save_metadata_json: true

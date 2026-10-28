@@ -1,0 +1,153 @@
+# ONLY DENSE TRINOCULAR; NO STEREOSGBM. Save as a new file for each scene.
+# Relative paths are relative to this YAML file, not your terminal directory.
+# All lengths in metres; all disparities/focal lengths in pixels.
+experiment:
+  name: fov835_baseline_02
+  output_dir: ./results
+
+inputs:
+  center: ./left_up.png
+  right:  ./right_up.png
+  down:  ./left_down.png
+
+# Metadata for experiment tracking; does not modify the input images.
+scene:
+  origin: blender                # blender | real_camera
+  frame: 1
+  scene_name: urban_street
+  obstacle_distance_m: null     # optional, fill when measured
+  x_angle_deg: null
+  y_angle_deg: null
+  z_angle_deg: null
+  render_engine: null           # EEVEE | CYCLES; optional
+
+# Geometry of matched image pixels (image x goes RIGHT; image y goes DOWN).
+# CAMERA ARRANGEMENT USED IN THIS FILE (looking forward):
+#     C ------ R
+#     |
+#     U (the third camera is physically BELOW C; name U is legacy only).
+# If third camera is ABOVE C instead, set vertical_shift_sign: +1.
+# In either arrangement, keep reference_camera: C and 2 perpendicular baselines.
+# Images must have parallel optical axes, equal calibrated intrinsics and be
+# rectified already. Positive baseline lengths are magnitudes, not signed.
+rig:
+  reference_camera: L
+  horizontal_camera: R
+  vertical_camera: SL
+  layout: L_shape
+  baseline_horizontal_m: 0.2   # 50 mm; C to R
+  baseline_vertical_m: 0.2    # 50 mm; C to U
+  horizontal_shift_sign: -1    # -1 R right of C, +1 R left of C
+  vertical_shift_sign: -1      # -1 third camera below C, +1 above C
+  images_already_rectified: true
+  pose_baseline_tolerance_m: 0.0005
+
+# The label U is kept for compatibility with existing U_0001.png/Camera_U.
+# A camera physically below C may still be named Camera_U in Blender;
+# alternatively rename it there and update cameras.U.object_name + inputs.upper.
+# Camera-specific properties. Change fx/fy/cx/cy/resolution here whenever
+# you change the camera in Blender AND have re-rendered the images.
+# Optional fov/lens/sensor/pose fields are recorded, but are NOT recalculated
+# into fx/fy and are NOT used for rectification in this version.
+cameras:
+  L:
+    object_name: Camera_L
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.32
+    fy_px: 896.32
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.801
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 83.5
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m: [0.8, -4.0, 2.0]
+    rotation_world_xyz_deg: [90.0, 0.0, 0.0]
+  R:
+    object_name: Camera_R
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.32
+    fy_px: 896.32
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.801
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 83.5
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m: [1.0, -4.0, 2.0]
+    rotation_world_xyz_deg: [90.0, 0.0, 0.0]
+  SL:
+    object_name: Camera_SL      # legacy label; camera physically below C
+    model: perspective
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.32
+    fy_px: 896.32
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.801
+    sensor_width_mm: 5.0
+    sensor_height_mm: null
+    fov_horizontal_deg: 83.5
+    fov_vertical_deg: null
+    distortion_model: none
+    position_world_xyz_m: [0.8, -4.0, 1.8]
+    rotation_world_xyz_deg: [90.0, 0.0, 0.0]
+
+preprocess:
+  processing_scale: 0.5         # 1.0 = full-resolution computation
+  equalize: none                # none | clahe
+  clahe_clip_limit: 2.0
+  clahe_tile_grid: 8
+  gaussian_blur_ksize: 0        # 0 = off
+
+search:
+  min_disparity_px: 0           # measured in ORIGINAL 1600-px-wide images
+  max_disparity_px: 128
+  min_valid_disparity_px: 0.5
+  max_valid_depth_m: 100.0
+
+# Trinocular dense algorithm ONLY: Census -> two pair costs -> hierarchy -> SGM
+trinocular:
+  census_window: 5             # odd: 3, 5, 7
+  require_both_pairs: true
+  gradient_weights:
+    enabled: true
+    floor: 0.20
+    gamma: 1.0
+    epsilon: 0.001
+  hierarchy:
+    levels: 3
+    coarse_cost_weight: 0.7
+  sgm:
+    paths: 4                   # 4 | 8
+    P1: 0.07                   # in normalized Census cost scale, NOT OpenCV P1
+    P2: 0.40
+  selection:
+    subpixel: true
+    uniqueness_ratio: 0.03
+  postprocess:
+    median_ksize: 0
+
+# Optional GT path is metadata only. GT is NOT an input to either algorithm.
+ground_truth:
+  reference_camera: L
+  depth_npy_path: ./groundtruth.exr
+  depth_definition: null       # verify: axial_z | euclidean_range
+
+output:
+  save_npy: true
+  save_exr: true
+  save_preview_png: true
+  preview_max_disparity_px: 128.0
+  preview_min_depth_m: 1.0
+  preview_max_depth_m: 20.0
+  save_metadata_json: true

@@ -1,0 +1,29 @@
+{
+  "algorithm": "dense_trinocular_only",
+  "reference_camera": "L",
+  "horizontal_camera": "R",
+  "vertical_camera": "SL",
+  "image_resolution_wh": [
+    1600,
+    1300
+  ],
+  "processed_resolution_wh": [
+    800,
+    650
+  ],
+  "camera_intrinsics_and_baselines": {
+    "fx_px": 800.0,
+    "fy_px": 800.0,
+    "cx_px": 800.0,
+    "cy_px": 650.0,
+    "baseline_horizontal_m": 0.2,
+    "baseline_vertical_m": 0.2,
+    "horizontal_shift_sign": -1,
+    "vertical_shift_sign": -1
+  },
+  "vertical_to_horizontal_disparity_ratio": 1.0,
+  "runtime_seconds": 3.429,
+  "valid_depth_fraction": 0.4370346153846154,
+  "disparity_unit": "pixels_in_original_L_image",
+  "depth_definition": "axial_Z_from_L_m"
+}
