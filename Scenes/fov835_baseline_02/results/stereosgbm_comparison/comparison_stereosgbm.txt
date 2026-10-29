@@ -1,0 +1,43 @@
+OPEN CV STEREOSGBM — HORIZONTAL, VERTICAL, THREE-CAMERA FUSION
+Case: fov835_baseline_02
+Method H: L-R OpenCV StereoSGBM
+Method V: L-SL OpenCV StereoSGBM on transposed images
+Method T: inverse-depth weighted fusion of the TWO SGBM pairs
+T is NOT a native 3-view cv2.StereoSGBM matcher.
+Fusion inverse-Z: (fb_H*d_H + fb_V*d_V)/(fb_H**2+fb_V**2); Z=1/inverse-Z.
+Fusion disparity consistency threshold (0=off): 0.0 px
+GT EXR channel: ViewLayer.Depth.Z; convention: axial
+GT file: D:\course_4\project_geoscan\StereoCam\Scenes\fov835_baseline_02\Groundtruth.exr
+GT valid fraction: 86.59%
+3-way common mask: 941763/2080000 (45.28%)
+Plot: 0.5..5.0m, bins 0.5m, min 30 shared pixels
+Mean Bias = pred - GT; positive delta (binocular - fusion) means fusion better.
+NaN in band/bin means insufficient or zero data, NOT zero error.
+
+INDIVIDUAL VALID PIXELS:
+  2 cameras: L-R (StereoSGBM): N=1164311 MAE=0.233222, RMSE=0.654746, Bias=+0.002297 m
+  2 cameras: L-SL (StereoSGBM): N=1301486 MAE=0.473986, RMSE=3.485578, Bias=-0.005206 m
+  3 cameras: L-R-SL (SGBM fusion): N=941763 MAE=0.289662, RMSE=0.682982, Bias=-0.128986 m
+
+FAIR THREE-WAY COMMON PIXELS:
+  2 cameras: L-R (StereoSGBM): N=941763 MAE=0.232152, RMSE=0.657746, Bias=-0.001332 m
+  2 cameras: L-SL (StereoSGBM): N=941763 MAE=0.538604, RMSE=4.041250, Bias=+0.048357 m
+  3 cameras: L-R-SL (SGBM fusion): N=941763 MAE=0.289662, RMSE=0.682982, Bias=-0.128986 m
+  DELTA horizontal - fusion: MAE=-0.057510, RMSE=-0.025236 m
+  DELTA vertical - fusion: MAE=+0.248942, RMSE=+3.358268 m
+
+BAND METRICS (common mask):
+  0 < GT < 3 m: GT=245589; N_common=47987
+    horizontal: MAE=1.219817, RMSE=1.705190 m
+    vertical: MAE=0.062756, RMSE=0.905860 m
+    trinocular: MAE=0.438698, RMSE=0.636356 m
+  3 <= GT <= 5 m: GT=556149; N_common=268160
+    horizontal: MAE=0.313546, RMSE=0.629230 m
+    vertical: MAE=0.161485, RMSE=0.700063 m
+    trinocular: MAE=0.236335, RMSE=0.459827 m
+  2.5 <= GT <= 3.5 m: GT=373712; N_common=59023
+    horizontal: MAE=0.647440, RMSE=1.109895 m
+    vertical: MAE=0.103515, RMSE=0.844880 m
+    trinocular: MAE=0.273620, RMSE=0.473922 m
+
+NOTE: Verify Blender GT axial vs ray-range convention before academic use.
