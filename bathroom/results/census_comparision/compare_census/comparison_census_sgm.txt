@@ -1,0 +1,52 @@
+CAMERA ABLATION: IDENTICAL CENSUS + HIERARCHY + SGM
+Case: bathroom
+Methods: Horizontal L/R, Vertical L/SL, Trinocular L/R/SL
+Ground Truth: D:\course_4\project_geoscan\StereoCam\bathroom\groundtruth.exr
+GT channel: Depth.V
+GT type: axial
+GT coverage: 100.00%
+COMMON THREE-METHOD pixels: 1609756/2080000 (77.39%)
+NOTE: Zero qualifying samples in a band = NaN, not MAE/RMSE of zero.
+Mean Bias = predicted depth - true GT depth (meters).
+
+INDIVIDUAL VALID MASK METRICS
+horizontal: coverage 88.33%, horizontal: pixels=1837220, MAE=1.055936 m, RMSE=4.242784 m, Mean Bias=+0.704160 m
+vertical: coverage 88.50%, vertical: pixels=1840776, MAE=1.120544 m, RMSE=4.179246 m, Mean Bias=+0.746583 m
+trinocular: coverage 90.93%, trinocular: pixels=1891392, MAE=1.110090 m, RMSE=4.454263 m, Mean Bias=+0.754005 m
+
+FAIR THREE-WAY COMPARISON - SAME PIXELS
+horizontal: pixels=1609756, MAE=0.922986 m, RMSE=3.565818 m, Mean Bias=+0.593116 m
+vertical: pixels=1609756, MAE=0.970270 m, RMSE=3.533526 m, Mean Bias=+0.615042 m
+trinocular: pixels=1609756, MAE=0.885842 m, RMSE=3.376979 m, Mean Bias=+0.549788 m
+Delta horizontal - Trinocular: MAE=+0.037144 m; RMSE=+0.188839 m
+Delta vertical - Trinocular: MAE=+0.084428 m; RMSE=+0.156548 m
+Positive delta = Trinocular smaller error. Negative = binocular smaller error.
+
+PAIRWISE COMMON MASKS (more pixels than three-way where possible)
+horizontal vs trinocular: N=1740344
+  horizontal: pixels=1740344, MAE=0.987828 m, RMSE=3.781336 m, Mean Bias=+0.648365 m
+  trinocular: pixels=1740344, MAE=0.974835 m, RMSE=3.844810 m, Mean Bias=+0.630357 m
+vertical vs trinocular: N=1745824
+  vertical: pixels=1745824, MAE=1.058409 m, RMSE=3.817642 m, Mean Bias=+0.692010 m
+  trinocular: pixels=1745824, MAE=1.010801 m, RMSE=3.981237 m, Mean Bias=+0.662594 m
+
+GT DEPTH BANDS: same 3-way mask for all methods
+
+0 < GT < 3 m | GT=2080000 common=1609756
+  horizontal: MAE=0.922986, RMSE=3.565818, Mean Bias=+0.593116 (m)
+  vertical: MAE=0.970270, RMSE=3.533526, Mean Bias=+0.615042 (m)
+  trinocular: MAE=0.885842, RMSE=3.376979, Mean Bias=+0.549788 (m)
+
+3 <= GT <= 5 m | GT=0 common=0
+  horizontal: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+  vertical: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+  trinocular: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+
+2.5 <= GT <= 3.5 m | GT=0 common=0
+  horizontal: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+  vertical: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+  trinocular: MAE=nan, RMSE=nan, Mean Bias=+nan (m)
+
+GRAPH: error_vs_depth_combined.png; CSV: error_vs_depth.csv
+Graph bins are selected by TRUE GT Z, on the SAME three-way common mask.
+Verify axial/range Blender Z pass before thesis reporting.

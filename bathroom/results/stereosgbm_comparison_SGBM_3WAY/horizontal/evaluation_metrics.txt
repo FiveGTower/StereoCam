@@ -1,0 +1,10 @@
+Method: 2 cameras: L-R (StereoSGBM)
+GT convention: axial
+Coverage: 77.307%
+INDIVIDUAL: N=1607996, MAE=0.449640 m, RMSE=1.200617 m, Mean Bias=+0.417902 m
+THREE-WAY COMMON: N=1386156, MAE=0.475203 m, RMSE=1.251069 m, Mean Bias=+0.444587 m
+
+GT DEPTH BANDS - SAME THREE-METHOD PIXELS
+0 < GT < 3 m: N=1386156; MAE=0.475203 m, RMSE=1.251069 m, Bias=+0.444587 m
+3 <= GT <= 5 m: N=0; MAE=nan m, RMSE=nan m, Bias=+nan m
+2.5 <= GT <= 3.5 m: N=0; MAE=nan m, RMSE=nan m, Bias=+nan m

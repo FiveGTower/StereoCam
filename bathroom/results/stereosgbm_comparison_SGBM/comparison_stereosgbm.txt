@@ -1,0 +1,43 @@
+OPEN CV STEREOSGBM — HORIZONTAL, VERTICAL, THREE-CAMERA FUSION
+Case: bathroom
+Method H: L-R OpenCV StereoSGBM
+Method V: L-SL OpenCV StereoSGBM on transposed images
+Method T: inverse-depth weighted fusion of the TWO SGBM pairs
+T is NOT a native 3-view cv2.StereoSGBM matcher.
+Fusion inverse-Z: (fb_H*d_H + fb_V*d_V)/(fb_H**2+fb_V**2); Z=1/inverse-Z.
+Fusion disparity consistency threshold (0=off): 0.0 px
+GT EXR channel: Depth.V; convention: axial
+GT file: D:\course_4\project_geoscan\StereoCam\bathroom\groundtruth.exr
+GT valid fraction: 100.00%
+3-way common mask: 1328468/2080000 (63.87%)
+Plot: 0.5..5.0m, bins 0.5m, min 100 shared pixels
+Mean Bias = pred - GT; positive delta (binocular - fusion) means fusion better.
+NaN in band/bin means insufficient or zero data, NOT zero error.
+
+INDIVIDUAL VALID PIXELS:
+  2 cameras: L-R (StereoSGBM): N=1592856 MAE=0.432201, RMSE=1.125614, Bias=+0.404323 m
+  2 cameras: L-SL (StereoSGBM): N=1616788 MAE=0.487426, RMSE=1.179398, Bias=+0.469854 m
+  3 cameras: L-R-SL (SGBM fusion): N=1328468 MAE=0.466977, RMSE=1.169451, Bias=+0.447586 m
+
+FAIR THREE-WAY COMMON PIXELS:
+  2 cameras: L-R (StereoSGBM): N=1328468 MAE=0.472708, RMSE=1.186392, Bias=+0.448553 m
+  2 cameras: L-SL (StereoSGBM): N=1328468 MAE=0.486322, RMSE=1.257636, Bias=+0.469700 m
+  3 cameras: L-R-SL (SGBM fusion): N=1328468 MAE=0.466977, RMSE=1.169451, Bias=+0.447586 m
+  DELTA horizontal - fusion: MAE=+0.005731, RMSE=+0.016941 m
+  DELTA vertical - fusion: MAE=+0.019346, RMSE=+0.088185 m
+
+BAND METRICS (common mask):
+  0 < GT < 3 m: GT=2080000; N_common=1328468
+    horizontal: MAE=0.472708, RMSE=1.186392 m
+    vertical: MAE=0.486322, RMSE=1.257636 m
+    trinocular: MAE=0.466977, RMSE=1.169451 m
+  3 <= GT <= 5 m: GT=0; N_common=0
+    horizontal: MAE=nan, RMSE=nan m
+    vertical: MAE=nan, RMSE=nan m
+    trinocular: MAE=nan, RMSE=nan m
+  2.5 <= GT <= 3.5 m: GT=0; N_common=0
+    horizontal: MAE=nan, RMSE=nan m
+    vertical: MAE=nan, RMSE=nan m
+    trinocular: MAE=nan, RMSE=nan m
+
+NOTE: Verify Blender GT axial vs ray-range convention before academic use.

@@ -1,0 +1,140 @@
+# BATHROOM / CAMERA CALIBRATION FROM BLENDER SCREENSHOTS (2026-10-29)
+# Use with run_compare_census.py + the existing run_core.py.
+# Relative paths are relative to this Parameters.yaml file.
+# Rotations and world positions below were read from Blender Transform panels.
+# EXR Z-pass convention must be checked when interpreting scientific results.
+
+experiment:
+  name: bathroom_census_hv_trinocular
+  output_dir: ./results/census_hv_trinocular
+
+inputs:
+  center: ./left_up.png
+  right: ./right_up.png
+  down: ./left_down.png
+
+scene:
+  origin: blender
+  scene_name: bathroom
+  frame: null   # Not inferred from the captured PNGs
+
+rig:
+  reference_camera: L
+  layout: L_shape
+  horizontal_camera: R
+  vertical_camera: SL
+  baseline_horizontal_m: 0.1
+  baseline_vertical_m: 0.1
+  # With world rotation (90, 0, 180), the R match moves left in the R image
+  # and the SL match moves up in the SL image, relative to L.
+  horizontal_shift_sign: -1
+  vertical_shift_sign: -1
+  images_already_rectified: true
+  pose_baseline_tolerance_m: 0.0005
+
+cameras:
+  L:
+    object_name: camera.L
+    model: perspective
+    distortion_model: none
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.0
+    fy_px: 896.0
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.8
+    sensor_width_mm: 5.0
+    sensor_fit: AUTO
+    fov_horizontal_deg: 83.520599
+    position_world_xyz_m: [-1.0, 2.0, 1.5]
+    rotation_world_xyz_deg: [90.0, 0.0, 180.0]
+  R:
+    object_name: camera.R
+    model: perspective
+    distortion_model: none
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.0
+    fy_px: 896.0
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.8
+    sensor_width_mm: 5.0
+    sensor_fit: AUTO
+    fov_horizontal_deg: 83.520599
+    position_world_xyz_m: [-1.1, 2.0, 1.5]
+    rotation_world_xyz_deg: [90.0, 0.0, 180.0]
+  SL:
+    object_name: camera.SL
+    model: perspective
+    distortion_model: none
+    width_px: 1600
+    height_px: 1300
+    fx_px: 896.0
+    fy_px: 896.0
+    cx_px: 800.0
+    cy_px: 650.0
+    focal_length_mm: 2.8
+    sensor_width_mm: 5.0
+    sensor_fit: AUTO
+    fov_horizontal_deg: 83.520599
+    position_world_xyz_m: [-1.0, 2.0, 1.4]
+    rotation_world_xyz_deg: [90.0, 0.0, 180.0]
+
+preprocess:
+  processing_scale: 0.5
+  equalize: none
+  clahe_clip_limit: 2.0
+  clahe_tile_grid: 8
+  gaussian_blur_ksize: 0
+
+search:
+  min_disparity_px: 0
+  # 190 px at full resolution => 95 px at processing scale 0.5;
+  # corresponds to the older code's 96 disparity labels (0..95).
+  max_disparity_px: 190.0
+  min_valid_disparity_px: 0.5
+  max_valid_depth_m: 100.0
+
+trinocular:
+  census_window: 5
+  require_both_pairs: true
+  gradient_weights:
+    enabled: true
+    floor: 0.2
+    gamma: 1.0
+    epsilon: 0.001
+  hierarchy:
+    levels: 3
+    coarse_cost_weight: 0.7
+  sgm:
+    paths: 4
+    P1: 0.07
+    P2: 0.40
+  selection:
+    subpixel: true
+    uniqueness_ratio: 0.03
+  postprocess:
+    median_ksize: 0
+
+ground_truth:
+  reference_camera: L
+  depth_exr_path: ./groundtruth.exr
+  depth_definition: null  # Decide axial or range using --gt-depth-type at runtime
+
+evaluation:
+  min_depth_m: 0.1
+  plot_z_min_m: 0.5
+  plot_z_max_m: 5.0
+  plot_z_bin_width_m: 0.5
+  plot_min_common_pixels: 100
+
+output:
+  save_npy: true
+  save_exr: true
+  save_preview_png: true
+  preview_max_disparity_px: 190.0
+  preview_min_depth_m: 0.5
+  preview_max_depth_m: 5.0
+  save_metadata_json: true
