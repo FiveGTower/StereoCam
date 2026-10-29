@@ -142,6 +142,7 @@ def main():
         raise ValueError("No overlapping valid pixels! Check EXR channel and depth units")
 
     err = pred[valid].astype(np.float64) - gt[valid].astype(np.float64)
+    mean_bias = float(np.mean(err))
     mae = float(np.mean(np.abs(err)))
     rmse = float(np.sqrt(np.mean(err ** 2)))
     fraction = 100.0 * count / gt.size
@@ -164,8 +165,8 @@ def main():
         f"Compared pixels : {count}/{gt.size} ({fraction:.2f}%)\n"
         f"MAE             : {mae:.6f} m = {mae*100:.3f} cm\n"
         f"RMSE            : {rmse:.6f} m = {rmse*100:.3f} cm\n"
-        "Note: MAE and RMSE are evaluated only at pixels valid in both maps.\n"
-        "Check Blender Z-pass convention (range vs axial) using known geometry.\n"
+        f"Mean Bias: {mean_bias:.6f} m\n"
+        f"Mean Bias: {mean_bias * 100:.3f} cm\n"        
     )
     output_path = results / "evaluation_metrics.txt"
     output_path.write_text(report, encoding="utf-8")

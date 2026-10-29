@@ -65,7 +65,7 @@ cameras:
     fov_horizontal_deg: 90
     fov_vertical_deg: null
     distortion_model: none
-    position_world_xyz_m: [0.8, -4.0, 2.0]
+    position_world_xyz_m: [0.8, -2.0, 2.0]
     rotation_world_xyz_deg: [90.0, 0.0, 0.0]
   R:
     object_name: Camera_R
@@ -82,7 +82,7 @@ cameras:
     fov_horizontal_deg: 90
     fov_vertical_deg: null
     distortion_model: none
-    position_world_xyz_m: [0.85, -4.0, 2.0]
+    position_world_xyz_m: [0.85, -2.0, 2.0]
     rotation_world_xyz_deg: [90.0, 0.0, 0.0]
   SL:
     object_name: Camera_SL      # legacy label; camera physically below C
@@ -99,7 +99,7 @@ cameras:
     fov_horizontal_deg: 90
     fov_vertical_deg: null
     distortion_model: none
-    position_world_xyz_m: [0.8, -4.0, 1.95]
+    position_world_xyz_m: [0.8, -2.0, 1.95]
     rotation_world_xyz_deg: [90.0, 0.0, 0.0]
 
 preprocess:
@@ -143,6 +143,13 @@ ground_truth:
   depth_npy_path: ./groundtruth.exr
   depth_definition: null       # verify: axial_z | euclidean_range
 
+evaluation:
+  min_depth_m: 0.1
+  plot_z_min_m: 0.5
+  plot_z_max_m: 5.0
+  plot_z_bin_width_m: 0.5
+  plot_min_common_pixels: 30
+  
 output:
   save_npy: true
   save_exr: true

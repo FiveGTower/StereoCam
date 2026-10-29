@@ -1,0 +1,11 @@
+Method: binocular_vertical_census_sgm
+GT convention: axial
+Prediction coverage: 53.15% of image
+Individual valid mask: Metrics: pixels=965833, MAE=0.713611 m, RMSE=2.117374 m, Mean Bias=-0.129426 m
+COMMON valid mask: Metrics: pixels=731143, MAE=0.468732 m, RMSE=1.532578 m, Mean Bias=-0.123871 m
+Mean Bias definition: prediction minus GT (meters)
+
+GT DEPTH BANDS - common mask across all three methods
+0 < GT < 3 m: N=67358; MAE=0.566589 m, RMSE=1.857721 m, Bias=+0.030559 m
+3 <= GT <= 5 m: N=638365; MAE=0.378906 m, RMSE=1.150876 m, Bias=-0.143147 m
+2.5 <= GT <= 3.5 m: N=80484; MAE=0.666012 m, RMSE=1.917108 m, Bias=-0.079634 m
